@@ -1,0 +1,5 @@
+com\example\OrderManagementSystem\service\test.class
+com\example\OrderManagementSystem\OrderManagementSystemApplication.class
+com\example\OrderManagementSystem\model\test.class
+com\example\OrderManagementSystem\controller\test.class
+com\example\OrderManagementSystem\repository\test.class
