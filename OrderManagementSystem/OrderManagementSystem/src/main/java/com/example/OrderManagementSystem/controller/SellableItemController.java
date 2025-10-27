@@ -21,9 +21,8 @@ public class SellableItemController {
     }
 
     @GetMapping
-    public ResponseEntity<List<SellableItem>> findAll() {
+    public ResponseEntity<List<SellableItem>> getAllItems() {
         List<SellableItem> sellableItems = sellableItemService.findAll();
         return ResponseEntity.ok(sellableItems);
     }
-
 }
