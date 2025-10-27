@@ -9,9 +9,12 @@ import java.util.List;
 
 @Service
 public class SellableItemService {
+    private final SellableItemRepo sellableItemRepo;
 
     @Autowired
-    private SellableItemRepo sellableItemRepo;
+    public SellableItemService(SellableItemRepo sellableItemRepo) {
+        this.sellableItemRepo = sellableItemRepo;
+    }
 
     public List<SellableItem> findAll() {
         return sellableItemRepo.findAll();
