@@ -54,9 +54,5 @@ public class ContractTypeRepository {
         return contractTypes.removeIf(type -> type.getId().equals(id));
     }
 
-    public List<ContractType> findByType(String type) {
-        return contractTypes.stream()
-                .filter(ct -> ct.getType().equalsIgnoreCase(type))
-                .toList();
-    }
+
 }

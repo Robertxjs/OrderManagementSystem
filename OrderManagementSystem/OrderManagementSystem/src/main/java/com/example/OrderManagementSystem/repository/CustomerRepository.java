@@ -54,9 +54,5 @@ public class CustomerRepository {
         return customers.removeIf(customer -> customer.getId().equals(id));
     }
 
-    public List<Customer> findByCurrency(String currency) {
-        return customers.stream()
-                .filter(customer -> customer.getCurrency().equalsIgnoreCase(currency))
-                .toList();
-    }
+
 }

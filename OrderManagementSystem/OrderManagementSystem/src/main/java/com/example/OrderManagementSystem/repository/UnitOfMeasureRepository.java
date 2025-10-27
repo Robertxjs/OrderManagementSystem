@@ -57,9 +57,4 @@ public class UnitOfMeasureRepository {
         return units.removeIf(unit -> unit.getId().equals(id));
     }
 
-    public Optional<UnitOfMeasure> findBySymbol(String symbol) {
-        return units.stream()
-                .filter(unit -> unit.getSymbol().equalsIgnoreCase(symbol))
-                .findFirst();
-    }
 }

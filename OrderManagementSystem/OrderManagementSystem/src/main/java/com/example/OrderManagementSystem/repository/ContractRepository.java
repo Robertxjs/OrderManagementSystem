@@ -54,19 +54,9 @@ public class ContractRepository {
         return contracts.removeIf(contract -> contract.getId().equals(id));
     }
 
-    public List<Contract> findByStatus(String status) {
-        return contracts.stream()
-                .filter(contract -> contract.getStatus().equalsIgnoreCase(status))
-                .toList();
-    }
 
-    public List<Contract> findByContractTypeId(String contractTypeId) {
-        return contracts.stream()
-                .filter(contract -> contract.getContractTypeId().equals(contractTypeId))
-                .toList();
-    }
 
-    public List<Contract> findActiveContracts() {
-        return findByStatus("Active");
-    }
+
+
+
 }
