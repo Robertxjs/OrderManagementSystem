@@ -32,7 +32,6 @@ public class SellableItemRepo {
 
     public SellableItem save(SellableItem item) {
         if (item.getId() == null) {
-            // Generate new ID
             int maxId = sellableItems.stream()
                     .map(SellableItem::getId)
                     .filter(id -> id != null && id.matches(".*\\d+"))
@@ -43,7 +42,6 @@ public class SellableItemRepo {
             item.setId(prefix + String.format("%03d", maxId + 1));
         }
 
-        // Update existing item or add new one
         for (int i = 0; i < sellableItems.size(); i++) {
             if (sellableItems.get(i).getId().equals(item.getId())) {
                 sellableItems.set(i, item);
