@@ -21,7 +21,7 @@ public class ContractService {
     private ContractTypeRepository contractTypeRepository;
 
     @Autowired
-    private SellableItemRepo sellableItemRepository;
+    private SellableItemRepository sellableItemRepository;
 
     @Autowired
     private UnitOfMeasureRepository unitOfMeasureRepository;
@@ -30,7 +30,7 @@ public class ContractService {
         return contractRepository.findAll();
     }
 
-    public Optional<Contract> findById(String id) {
+    public Optional<Contract> findById(Long id) {
         return contractRepository.findById(id);
     }
 
@@ -38,13 +38,15 @@ public class ContractService {
         return contractRepository.save(contract);
     }
 
-    public boolean deleteById(String id) {
+    public boolean deleteById(Long id) {
         return contractRepository.deleteById(id);
     }
 
+    public Contract createContract(String name, Long contractTypeId, String status) {
+        if (status == null || (!status.equals("Active") && !status.equals("Down"))) {
+            throw new IllegalArgumentException("Status must be either 'Active' or 'Down'");
+        }
 
-
-    public Contract createContract(String name, String contractTypeId, String status) {
         ContractType contractType = contractTypeRepository.findById(contractTypeId)
                 .orElseThrow(() -> new RuntimeException("Contract type not found"));
 
@@ -56,7 +58,11 @@ public class ContractService {
         return contractRepository.save(contract);
     }
 
-    public ContractLine addContractLine(String contractId, String itemId, String unitId, double quantity) {
+    public ContractLine addContractLine(Long contractId, Long itemId, Long unitId, double quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than zero");
+        }
+
         Contract contract = contractRepository.findById(contractId)
                 .orElseThrow(() -> new RuntimeException("Contract not found"));
 
@@ -78,20 +84,17 @@ public class ContractService {
         return savedLine;
     }
 
-
-    public Contract activateContract(String contractId) {
+    public Contract activateContract(Long contractId) {
         Contract contract = contractRepository.findById(contractId)
                 .orElseThrow(() -> new RuntimeException("Contract not found"));
         contract.activate();
         return contractRepository.save(contract);
     }
 
-    public Contract deactivateContract(String contractId) {
+    public Contract deactivateContract(Long contractId) {
         Contract contract = contractRepository.findById(contractId)
                 .orElseThrow(() -> new RuntimeException("Contract not found"));
         contract.deactivate();
         return contractRepository.save(contract);
     }
-
-
 }

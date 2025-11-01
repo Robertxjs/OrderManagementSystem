@@ -2,23 +2,23 @@ package com.example.OrderManagementSystem.model;
 
 public class UnitOfMeasure {
 
-    private String id;
+    private Long id;
     private String name;
     private String symbol;
 
     public UnitOfMeasure() {}
 
-    public UnitOfMeasure(String id, String name, String symbol) {
+    public UnitOfMeasure(Long id, String name, String symbol) {
         this.id = id;
         this.name = name;
         this.symbol = symbol;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

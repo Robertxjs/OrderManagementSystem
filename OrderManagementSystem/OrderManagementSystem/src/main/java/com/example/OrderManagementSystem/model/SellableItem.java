@@ -1,21 +1,18 @@
 package com.example.OrderManagementSystem.model;
 
-public abstract class SellableItem {
-    private String id;
+public abstract class SellableItem implements IdentifiableLongId {
+    private Long id;
     private String name;
 
-    public SellableItem(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public String getId() {
+    @Override
+    public Long getLongId() {
         return id;
     }
-
-    public void setId(String id) {
+    @Override
+    public void setLongId(Long id) {
         this.id = id;
     }
+
 
     public String getName() {
         return name;

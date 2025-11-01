@@ -1,40 +1,66 @@
 package com.example.OrderManagementSystem.repository;
 
-import com.example.OrderManagementSystem.model.Contract;
+import com.example.OrderManagementSystem.model.SellableItem;
+
+import com.example.OrderManagementSystem.repository.InMemoryStore;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 import java.util.Optional;
 
 @Repository
-public class ContractRepository implements CrudRepository<Contract, Long> {
-    private final InMemoryStore<Contract> store;
 
-    public ContractRepository(InMemoryStore<Contract> contractStore) {
-        this.store = contractStore;
+public class SellableItemRepository implements CrudRepository<SellableItem, Long> {
+
+    private final InMemoryStore<SellableItem> store;
+
+    public SellableItemRepository(InMemoryStore<SellableItem> sellableItemStore) {
+
+        this.store = sellableItemStore;
+
     }
 
     @Override
-    public List<Contract> findAll() {
+
+    public List<SellableItem> findAll() {
+
         return store.values();
+
     }
 
     @Override
-    public Optional<Contract> findById(Long id) {
+
+    public Optional<SellableItem> findById(Long id) {
+
         return Optional.ofNullable(store.get(id));
+
     }
 
     @Override
-    public Contract save(Contract entity) {
+
+    public SellableItem save(SellableItem entity) {
+
         if (entity.getId() == null) {
+
             entity.setId(store.nextId());
+
         }
+
         store.put(entity.getId(), entity);
+
         return entity;
+
     }
 
     @Override
+
     public boolean deleteById(Long id) {
+
         return store.remove(id) != null;
+
     }
+
 }
+

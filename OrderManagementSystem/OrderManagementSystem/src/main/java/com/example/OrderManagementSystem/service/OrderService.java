@@ -24,7 +24,7 @@ public class OrderService {
     private ContractRepository contractRepository;
 
     @Autowired
-    private SellableItemRepo sellableItemRepository;
+    private SellableItemRepository sellableItemRepository;
 
     @Autowired
     private UnitOfMeasureRepository unitOfMeasureRepository;

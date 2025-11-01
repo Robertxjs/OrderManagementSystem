@@ -1,6 +1,6 @@
 package com.example.OrderManagementSystem.model;
 
-public class Product extends SellableItem{
+public abstract class Product extends SellableItem{
     private double value;
 
     public Product(String id, String name, double value) {

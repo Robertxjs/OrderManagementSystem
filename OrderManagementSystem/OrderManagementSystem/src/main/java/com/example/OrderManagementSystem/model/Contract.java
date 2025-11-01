@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Contract {
 
-    private String id;
+    private Long id;
     private String name;
-    private String contractTypeId;
+    private Long contractTypeId;
     private String status; // Active/Down
     private List<ContractLine> contractLines;
 
@@ -15,7 +15,7 @@ public class Contract {
         this.contractLines = new ArrayList<>();
     }
 
-    public Contract(String id, String name, String contractTypeId, String status) {
+    public Contract(Long id, String name, Long contractTypeId, String status) {
         this();
         this.id = id;
         this.name = name;
@@ -23,11 +23,11 @@ public class Contract {
         this.status = status;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -39,11 +39,11 @@ public class Contract {
         this.name = name;
     }
 
-    public String getContractTypeId() {
+    public Long getContractTypeId() {
         return contractTypeId;
     }
 
-    public void setContractTypeId(String contractTypeId) {
+    public void setContractTypeId(Long contractTypeId) {
         this.contractTypeId = contractTypeId;
     }
 
@@ -68,10 +68,6 @@ public class Contract {
             contractLines = new ArrayList<>();
         }
         contractLines.add(contractLine);
-    }
-
-    public boolean isActive() {
-        return "Active".equalsIgnoreCase(status);
     }
 
     public void activate() {

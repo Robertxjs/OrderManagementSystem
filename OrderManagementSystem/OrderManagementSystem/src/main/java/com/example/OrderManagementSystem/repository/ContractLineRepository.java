@@ -16,7 +16,7 @@ import java.util.Optional;
 public class ContractLineRepository {
 
     @Autowired
-    private SellableItemRepo sellableItemRepository;
+    private SellableItemRepository sellableItemRepository;
 
     @Autowired
     private UnitOfMeasureRepository unitOfMeasureRepository;

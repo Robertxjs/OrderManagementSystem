@@ -3,58 +3,60 @@ package com.example.OrderManagementSystem.repository;
 import com.example.OrderManagementSystem.model.UnitOfMeasure;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class UnitOfMeasureRepository {
-    private List<UnitOfMeasure> units = new ArrayList<>(Arrays.asList(
-            new UnitOfMeasure("U001", "Piece", "pcs"),
-            new UnitOfMeasure("U002", "Kilogram", "kg"),
-            new UnitOfMeasure("U003", "Meter", "m"),
-            new UnitOfMeasure("U004", "Liter", "L"),
-            new UnitOfMeasure("U005", "Hour", "hr"),
-            new UnitOfMeasure("U006", "Day", "day"),
-            new UnitOfMeasure("U007", "Box", "box"),
-            new UnitOfMeasure("U008", "Package", "pkg")
-    ));
+public class UnitOfMeasureRepository implements CrudRepository<UnitOfMeasure, Long> {
+    private final InMemoryStore<UnitOfMeasure> store;
 
-    public List<UnitOfMeasure> findAll() {
-        return units;
+    public UnitOfMeasureRepository(InMemoryStore<UnitOfMeasure> unitStore) {
+        this.store = unitStore;
+        // Initialize with default units
+        initializeDefaultUnits();
     }
 
-    public Optional<UnitOfMeasure> findById(String id) {
-        return units.stream()
-                .filter(unit -> unit.getId().equals(id))
+    private void initializeDefaultUnits() {
+        if (store.values().isEmpty()) {
+            save(new UnitOfMeasure(null, "Piece", "pcs"));
+            save(new UnitOfMeasure(null, "Kilogram", "kg"));
+            save(new UnitOfMeasure(null, "Meter", "m"));
+            save(new UnitOfMeasure(null, "Liter", "L"));
+            save(new UnitOfMeasure(null, "Hour", "hr"));
+            save(new UnitOfMeasure(null, "Day", "day"));
+            save(new UnitOfMeasure(null, "Box", "box"));
+            save(new UnitOfMeasure(null, "Package", "pkg"));
+        }
+    }
+
+    @Override
+    public List<UnitOfMeasure> findAll() {
+        return store.values();
+    }
+
+    @Override
+    public Optional<UnitOfMeasure> findById(Long id) {
+        return Optional.ofNullable(store.get(id));
+    }
+
+    @Override
+    public UnitOfMeasure save(UnitOfMeasure entity) {
+        if (entity.getId() == null) {
+            entity.setId(store.nextId());
+        }
+        store.put(entity.getId(), entity);
+        return entity;
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        return store.remove(id) != null;
+    }
+
+    // Helper method to find by symbol
+    public Optional<UnitOfMeasure> findBySymbol(String symbol) {
+        return store.values().stream()
+                .filter(unit -> unit.getSymbol().equalsIgnoreCase(symbol))
                 .findFirst();
     }
-
-    public UnitOfMeasure save(UnitOfMeasure unit) {
-        if (unit.getId() == null) {
-            // Generate new ID
-            int maxId = units.stream()
-                    .mapToInt(u -> Integer.parseInt(u.getId().substring(1)))
-                    .max()
-                    .orElse(0);
-            unit.setId("U" + String.format("%03d", maxId + 1));
-        }
-
-        // Update existing unit or add new one
-        for (int i = 0; i < units.size(); i++) {
-            if (units.get(i).getId().equals(unit.getId())) {
-                units.set(i, unit);
-                return unit;
-            }
-        }
-
-        units.add(unit);
-        return unit;
-    }
-
-    public boolean deleteById(String id) {
-        return units.removeIf(unit -> unit.getId().equals(id));
-    }
-
 }
