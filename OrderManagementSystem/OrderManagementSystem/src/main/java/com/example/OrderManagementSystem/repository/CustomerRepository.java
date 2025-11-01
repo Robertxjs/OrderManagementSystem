@@ -9,50 +9,31 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class CustomerRepository {
-    private List<Customer> customers = new ArrayList<>(Arrays.asList(
-            new Customer("C001", "Acme Corporation", "USD"),
-            new Customer("C002", "Tech Solutions Ltd", "EUR"),
-            new Customer("C003", "Global Industries", "USD"),
-            new Customer("C004", "Startup Ventures", "GBP"),
-            new Customer("C005", "Enterprise Systems", "USD")
-    ));
+public class CustomerRepository implements CrudRepository<Customer, Long> {
 
+    private final InMemoryStore<Customer> store;
+
+    public CustomerRepository(InMemoryStore<Customer> customerStore) {
+        this.store = customerStore;
+    }
+    @Override
     public List<Customer> findAll() {
-        return customers;
+        return store.values();
     }
-
-    public Optional<Customer> findById(String id) {
-        return customers.stream()
-                .filter(customer -> customer.getId().equals(id))
-                .findFirst();
+    @Override
+    public Optional<Customer> findById(Long id) {
+        return Optional.ofNullable(store.get(id));
     }
-
-    public Customer save(Customer customer) {
-        if (customer.getId() == null) {
-            // Generate new ID
-            int maxId = customers.stream()
-                    .mapToInt(c -> Integer.parseInt(c.getId().substring(1)))
-                    .max()
-                    .orElse(0);
-            customer.setId("C" + String.format("%03d", maxId + 1));
+    @Override
+    public Customer save(Customer entity) {
+        if (entity.getId() == null) {
+            entity.setId(store.nextId());
         }
-
-        // Update existing customer or add new one
-        for (int i = 0; i < customers.size(); i++) {
-            if (customers.get(i).getId().equals(customer.getId())) {
-                customers.set(i, customer);
-                return customer;
-            }
-        }
-
-        customers.add(customer);
-        return customer;
+        store.put(entity.getId(), entity);
+        return entity;
     }
 
-    public boolean deleteById(String id) {
-        return customers.removeIf(customer -> customer.getId().equals(id));
-    }
+
 
 
 }

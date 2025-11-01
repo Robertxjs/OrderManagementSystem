@@ -22,7 +22,7 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Optional<Customer> findById(String id) {
+    public Optional<Customer> findById(Long id) {
         return customerRepository.findById(id);
     }
 
